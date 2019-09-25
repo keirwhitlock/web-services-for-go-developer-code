@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/context"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/mitchellh/mapstructure"
 	"net/http"
@@ -117,5 +118,30 @@ func main() {
 	router.HandleFunc("/article/{id}", ValidateMiddleware(ArticleDelete)).Methods("DELETE")
 	router.HandleFunc("/article/{id}", ValidateMiddleware(ArticleUpdate)).Methods("PUT")
 
-	http.ListenAndServe(":12345", router)
+	methods := handlers.AllowedMethods(
+		[]string{
+			"GET",
+			"POST",
+			"PUT",
+			"DELETE",
+		},
+	)
+	headers := handlers.AllowedHeaders(
+		[]string{
+			"Content-Type",
+			"Authorization",
+			"X-Requested-With",
+		},
+	)
+	origins := handlers.AllowedOrigins(
+		[]string{
+			"http://example.com",
+			"http://localhost",
+		},
+	)
+
+	http.ListenAndServe(
+		":12345",
+		handlers.CORS(headers, methods, origins)(router),
+	)
 }

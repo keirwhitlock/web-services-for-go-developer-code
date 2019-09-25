@@ -7,6 +7,7 @@ require (
 	github.com/go-playground/locales v0.12.1 // indirect
 	github.com/go-playground/universal-translator v0.16.0 // indirect
 	github.com/gorilla/context v1.1.1
+	github.com/gorilla/handlers v1.4.2
 	github.com/gorilla/mux v1.7.3
 	github.com/leodido/go-urn v1.1.0 // indirect
 	github.com/mitchellh/mapstructure v1.1.2
